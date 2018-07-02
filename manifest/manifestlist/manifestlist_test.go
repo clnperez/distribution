@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/docker/distribution"
+	ocispec "github.com/opencontainers/image-spec/specs-go/v1"
 )
 
 var expectedManifestListSerialization = []byte(`{
@@ -19,10 +20,8 @@ var expectedManifestListSerialization = []byte(`{
          "digest": "sha256:1a9ec845ee94c202b2d5da74a24f0ed2058318bfa9879fa541efaecba272e86b",
          "platform": {
             "architecture": "amd64",
-            "os": "linux",
-            "features": [
-               "sse4"
-            ]
+            "os": "windows",
+            "os.version": "10.0.16299.371"
          }
       },
       {
@@ -45,10 +44,10 @@ func TestManifestList(t *testing.T) {
 				Size:      985,
 				MediaType: "application/vnd.docker.distribution.manifest.v2+json",
 			},
-			Platform: PlatformSpec{
+			Platform: ocispec.Platform{
 				Architecture: "amd64",
-				OS:           "linux",
-				Features:     []string{"sse4"},
+				OS:           "windows",
+				OSVersion:    "10.0.16299.371",
 			},
 		},
 		{
@@ -57,7 +56,7 @@ func TestManifestList(t *testing.T) {
 				Size:      2392,
 				MediaType: "application/vnd.docker.distribution.manifest.v2+json",
 			},
-			Platform: PlatformSpec{
+			Platform: ocispec.Platform{
 				Architecture: "sun4m",
 				OS:           "sunos",
 			},
@@ -87,7 +86,7 @@ func TestManifestList(t *testing.T) {
 
 	// Check that the canonical field has the expected value.
 	if !bytes.Equal(expectedManifestListSerialization, canonical) {
-		t.Fatalf("manifest bytes not equal: %q != %q", string(canonical), string(expectedManifestListSerialization))
+		t.Fatalf("manifest bytes not equal: \n%q != \n%q", string(canonical), string(expectedManifestListSerialization))
 	}
 
 	var unmarshalled DeserializedManifestList

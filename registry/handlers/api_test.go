@@ -36,6 +36,7 @@ import (
 	"github.com/docker/libtrust"
 	"github.com/gorilla/handlers"
 	"github.com/opencontainers/go-digest"
+	ocispec "github.com/opencontainers/image-spec/specs-go/v1"
 )
 
 var headerConfig = http.Header{
@@ -1659,7 +1660,7 @@ func testManifestAPIManifestList(t *testing.T, env *testEnv, args manifestArgs) 
 					Size:      3253,
 					MediaType: schema2.MediaTypeManifest,
 				},
-				Platform: manifestlist.PlatformSpec{
+				Platform: ocispec.Platform{
 					Architecture: "amd64",
 					OS:           "linux",
 				},

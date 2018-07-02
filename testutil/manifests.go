@@ -11,6 +11,7 @@ import (
 	"github.com/docker/distribution/manifest/schema2"
 	"github.com/docker/libtrust"
 	"github.com/opencontainers/go-digest"
+	ocispec "github.com/opencontainers/image-spec/specs-go/v1"
 )
 
 // MakeManifestList constructs a manifest list out of a list of manifest digests
@@ -23,11 +24,10 @@ func MakeManifestList(blobstatter distribution.BlobStatter, manifestDigests []di
 		if err != nil {
 			return nil, err
 		}
-		platformSpec := manifestlist.PlatformSpec{
+		platformSpec := ocispec.Platform{
 			Architecture: "atari2600",
 			OS:           "CP/M",
 			Variant:      "ternary",
-			Features:     []string{"VLIW", "superscalaroutoforderdevnull"},
 		}
 		manifestDescriptor := manifestlist.ManifestDescriptor{
 			Descriptor: descriptor,

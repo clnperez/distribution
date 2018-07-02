@@ -8,6 +8,7 @@ import (
 	"github.com/docker/distribution"
 	"github.com/docker/distribution/manifest"
 	"github.com/opencontainers/go-digest"
+	ocispec "github.com/opencontainers/image-spec/specs-go/v1"
 )
 
 // MediaTypeManifestList specifies the mediaType for manifest lists.
@@ -39,30 +40,7 @@ func init() {
 
 // PlatformSpec specifies a platform where a particular image manifest is
 // applicable.
-type PlatformSpec struct {
-	// Architecture field specifies the CPU architecture, for example
-	// `amd64` or `ppc64`.
-	Architecture string `json:"architecture"`
-
-	// OS specifies the operating system, for example `linux` or `windows`.
-	OS string `json:"os"`
-
-	// OSVersion is an optional field specifying the operating system
-	// version, for example `10.0.10586`.
-	OSVersion string `json:"os.version,omitempty"`
-
-	// OSFeatures is an optional field specifying an array of strings,
-	// each listing a required OS feature (for example on Windows `win32k`).
-	OSFeatures []string `json:"os.features,omitempty"`
-
-	// Variant is an optional field specifying a variant of the CPU, for
-	// example `ppc64le` to specify a little-endian version of a PowerPC CPU.
-	Variant string `json:"variant,omitempty"`
-
-	// Features is an optional field specifying an array of strings, each
-	// listing a required CPU feature (for example `sse4` or `aes`).
-	Features []string `json:"features,omitempty"`
-}
+// Replacing with identical Platform from OCI image spec
 
 // A ManifestDescriptor references a platform-specific manifest.
 type ManifestDescriptor struct {
@@ -70,7 +48,7 @@ type ManifestDescriptor struct {
 
 	// Platform specifies which platform the manifest pointed to by the
 	// descriptor runs on.
-	Platform PlatformSpec `json:"platform"`
+	Platform ocispec.Platform `json:"platform"`
 }
 
 // ManifestList references manifests for various platforms.
